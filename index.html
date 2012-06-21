@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		
+		<title>JavaScript Modules - AMD</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/print.css" type="text/css" media="print">
+
+		<link rel="stylesheet" href="lib/zenburn.css">
+	</head>
+	
+	<body>
+		
+		<div id="reveal">
+
+			<!-- Used to fade in a background when a specific slide state is reached -->
+			<div class="state-background"></div>
+			
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>JavaScript Modules</h1>
+					<h3 class="inverted">AMD, Require.js &amp; Other Wins</h3>
+					<script>
+						// Delicously hacky. Look away.
+						if( navigator.userAgent.match( /(iPhone|iPad|iPod|Android)/i ) ) document.write( '<p style="color: rgba(0,0,0,0.3); text-shadow: none;">('+'Tap to navigate'+')</p>' );
+					</script>
+				</section>
+				
+				<section>
+				<section>
+					<h2>Merrick Christensen</h2>
+					<ul>
+						<li>I work at Domo as an anti-creative, non-certified, junior&nbsp;developer.</li>
+						<li>Built lots of high profile websites and applications.</li>
+						<li>I love coding.</li>
+						<li>Open source enthusiast.</li>
+						<li>use.js Contributor</li>
+					</ul>
+					</section>
+					<section>
+					<h2>My Thuggest Picture</h2>
+				
+					<img src="assets/images/me.jpg" />
+					</section>
+				</section>
+				
+				<section>
+				<h2>What I'm Going To Talk About</h2>
+				<ul>
+					<li>JavaScript Modules</li>
+					<li>AMD &amp; Require.js</li>
+					<li>AMD Voodoo and Winning</li>
+				</ul>
+				</section>
+
+				<section>
+					<section>
+						<h2>What are JavaScript Modules?</h2>
+						<p>Distinct pieces of loosely coupled functionality implemented in a gardened environment (a module).</p>
+					</section>
+					<section>
+						<h2>What are JavaScript Modules?</h2>
+						<p>They facilitate easier maintainability of applications.</p>
+					</section>
+					<section>
+						<h2>What are JavaScript Modules?</h2>
+						<p>Not native to JavaScript, not exactly new either...</p>
+						
+						<pre><code contenteditable style="font-size: 18px;line-height: 22px; margin-top: 20px;">var Module = (function() {
+  var private = "something";
+  return function() {
+    return {
+      someApi: { ... }
+    }
+  };
+})();</code></pre>
+
+					</section>
+				</section>
+
+				<section>
+					<h2>AMD - The Browser</h2>
+					<ul>
+						<li>AMD = Asynchronous Module Definition</li>
+						<li>Modules &amp; dependencies are loaded asynchronously.</li>
+						<li>Has a plugin system for different types of modules.</li>
+						<li>Needs an implementation (script loader) to run.</li>
+						<li>Great Adoption (jQuery, MooTools, Dojo, Firebug)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Require.js</h2>
+					<ul>
+						<li>The AMD reference implementation.</li>
+						<li>Two methods: require(), define()</li>
+						<li>Not the only AMD Implementation.</li>
+						<li>See <a href="https://github.com/cujojs/curl">Curl.js</a></li>
+					</ul>
+				</section>
+				
+				<section>
+					<section>
+					<h2>Require.js - define()</h2>
+					<ul>
+						<li>Used to define a module.</li>
+						<li>Specifies all module dependencies.</li>
+						<li>Optionally name your module.</li>
+						<li>Export your module interface.</li>
+					</ul>
+					</section>
+					<section>
+					<h2>define() API</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">// naming you module is optional, and in fact, you should avoid it
+// naming your modules makes your code less portable
+// dependencies listed in an array, same rules as require()
+// mapped to arguments in the callback
+define('name', ['dependency', 'bar'], function(dependency, bar) {
+  // Export the interface for our module.
+  return {
+    win: dependency.win,
+    lose: bar.lose
+  };
+});
+</code></pre>
+					</section>
+				<section>
+					<h2>define() API</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">define(['dependency', 'bar'], function(dependency, bar) {
+  // Export the interface for our module.
+  return {
+    win: dependency.win,
+    lose: bar.lose
+  };
+});
+</code></pre>
+					</section>
+						<section>
+					<h2>define() API</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">define(function() {
+  // Export the interface for our module.
+  return function(){
+    //functions can exported to!
+  }
+});
+</code></pre>
+				</section>
+			</section>
+
+
+			<section>
+				<section>	
+					<h2>Require.js - require()</h2>
+					<ul>
+						<li>Used to load code in a top level JavaScript file.</li>
+						<li>An entry point of sorts.</li>
+						<li>Used to lazily load code.</li>
+					</ul>
+				</section>
+				<section>
+					<h2>require() API</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">// foo is an external module
+// foo can be a path or an alias to a path using require configuration
+// the exports or return of foo will be mapped 
+// to the corresponding argument.
+require(['foo'], function(foo) {
+  foo.win()
+});
+</code></pre>
+				</section>
+				<section>
+					<h2>require() API</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">// Multiple dependencies
+require(['foo', 'bar'], function(foo, bar) {
+  foo.win();
+  bar.lose();
+});</code></pre>
+
+
+				</section>
+				<section>
+					<h2>require() API</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">// Dynamic loading of dependencies
+define(['require', 'jquery'], function(require, $) {
+  // lots of awesome code
+	
+  $('#chat-start').on('click', function(){ 
+    // dependencies are paths so this will grab features/chat.js
+      require(['features/chat'], function(chat) {
+        chat.start();
+      });
+  });
+
+  return //awesome api;
+});</code></pre>
+
+
+					</section>
+					<section>
+					<h2>require() API</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">// multiple loaders!
+var reqOne = require.config({
+  context: "version1",
+  baseUrl: "version1"
+});
+</code></pre>
+
+
+					</section>
+
+				</section>
+				<section>
+					<section>
+					<h2>Require Configuration</h2>			
+					<ul>
+						<li>Configuration of the Require.js Loader</li>
+						<li>Plugin configuration.</li>
+						<li>Paths, shims and more.</li>
+					</ul>
+					</section>
+					<section>
+					<h2>Require Configuration - Paths</h2>
+					<pre><code style="font-size:18px; line-height:22px;">require.config({
+  baseUrl: '/js',
+  paths: {
+    // ;-)
+    'underscore': 'lodash'
+  }
+});</code></pre>
+					</section>
+						<section>
+					<h2>Require Configuration - Shims</h2>
+					<pre><code style="font-size:18px; line-height:22px;">require.config({
+  shim: {
+    'backbone': {
+      // These script dependencies should be loaded before 
+      // loading backbone.js
+      deps: ['underscore', 'jquery'],
+
+      //Once loaded, use the global 'Backbone' as the
+      //module value.
+      exports: 'Backbone'
+    }
+  }
+});</code></pre>
+					</section>
+					<section>
+					<h2>Require Configuration - Maps</h2>
+					<pre><code style="font-size:18px; line-height:22px;">requirejs.config({
+  map: {
+    // When some/newmodule requires foo it gets the newer version.
+    'some/newmodule': {
+       'foo': 'foo1.2'
+	 },
+     // When some/oldmodule requires foo it gets the older version.
+     'some/oldmodule': {
+        'foo': 'foo1.0' 
+     }
+  }
+});</code></pre>
+					</section>
+
+
+				</section>
+				<section>
+					<section>
+					<h2>Require errbacks</h2>
+					<ul>
+					<li>Errbacks give you a chance to catch module loading failure and do something else.</li>
+					<li>Or fetching script errors! Huge win!</li>
+				</ul>
+					</section>
+					<section>
+					<h2>Require errbacks - CDN Failure!</h2>
+	<pre><code style="font-size:18px; line-height:22px;">requirejs.config({
+    paths: {
+        jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min'
+    }
+});
+
+require(['jquery'], function ($) {
+    //Do something with $ here
+}, function (err) {
+    //The error has a list of modules that failed
+    var failedId = err.requireModules && err.requireModules[0],
+    if (failedId === 'jquery') {
+        //undef is function only on the global requirejs object.
+        //Use it to clear internal knowledge of jQuery. Any modules
+        //that were dependent on jQuery and in the middle of loading
+        //will not be loaded yet, they will wait until a valid jQuery
+        //does load.
+        requirejs.undef(failedId);
+
+        //Set the path to jQuery to local path
+        requirejs.config({
+            paths: {
+                jquery: 'local/jquery'
+            }
+        });
+
+        //Try again. Note that the above require callback
+        //with the "Do something with $ here" comment will
+        //be called if this new attempt to load jQuery succeeds.
+        require(['jquery'], function () {});
+    } else {
+        //Some other error. Maybe show message to the user.
+    }
+});</code></pre>
+
+					</section>
+					<section>
+						<h2>Require errbacks - CDN Failure 2!</h2>
+							<pre><code style="font-size:18px; line-height:22px;">requirejs.config({
+    //To get timely, correct error triggers in IE, force a define/shim exports check.
+    enforceDefine: true,
+    paths: {
+        jquery: [
+            'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min',
+            //If the CDN location fails, load from this location
+            'lib/jquery'
+        ]
+    }
+});
+
+//Later
+require(['jquery'], function ($) {
+});</code></pre>
+
+
+					</section>
+				<section>
+					<section>
+					<h2>Graceful Module Shutdown - Restart</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">require(['chat'], function(Chat){
+	Chat.start();
+}, function(err){
+	console.log('Chat broke my heart and failed me.');
+	var failedId = err.requireModules && err.requireModules[0];
+	requirejs.undef(failedId);
+	// Log an error, call a service telling your developers
+	// to stop being n00bs.
+	require(['log'], function(log){
+		log.ourDevsAreScrubs();
+	});
+
+        // Maybe apologize to user through ui?
+	// Finally I hope this is merciful... round 2
+
+	console.log('Ok time to try it again.');
+	require(['chat'], function(Chat){});
+	
+    }, 1000);
+	
+});</code></pre>
+					</section>
+					</section>
+				</section>
+				<section>
+					<section>
+					<h2>Using Require Plugins</h2>
+					<ul>
+						<li>Transparent middleware for your modules!</li>
+						<li>Load different kinds of assets. Assets are dependencies too! (CSS, Templates, etc)</li>
+						<li>Can be used to preprocess module contents or load strategies. (CoffeeScript, Non-AMD Scripts)</li>
+						<li>text!, css!, i18n!, cs!, json!, mdown!, jade! &amp; lots more!</li>
+					</ul>
+					</section>
+					<section>
+					<h2>Using Require Plugins</h2>
+<pre><code style="font-size: 18px; line-height: 22px;">// the &lt;plugin&gt;!&lt;resource&gt; is the syntax to use a plugin
+// plugins are just modules that implement a specific api
+define(['foo!bar'], function(bar) {
+	// Export the interface for our module.
+});</pre></code>
+					</section>
+					<section>
+					<h2>Using Require Plugins</h2>
+	<pre><code style="font-size: 18px; line-height: 22px;">define(['cs!module.coffee'], function(module) {
+	// module was compile for me!
+});</pre></code>
+					</section>
+					<section>
+					<h2>Using Require Plugins</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">define(['text!mytemplate.handlebars', 'handlebars'], function(template, handlebars){
+	// template is just a string
+	return handlebars.compile(template);
+});</pre></code>
+					</section>
+				</section>
+				<section>
+					<section>
+					<h2>Making &amp; Admiring Require Plugins</h2>
+					<ul>
+					<li>We can significantly reduce boilerplate, and further separate our concerns with plugins!</li>
+					<li>The plugins will actually write to file in the build, this means your whole application could be a single request.</li>
+				</ul>
+					</section>
+					<section>
+					<h2>They Are Just Modules</h2>
+					<p>That honor a specified API.</p>
+					<pre><code style="font-size: 18px; line-height: 22px;">write: function (pluginName, name, write) { ... },
+load: function (name, parentRequire, load, config) {
+  // Require the intended dependency
+  parentRequire([name], function (val) {
+    // Add extra functionality
+    val.extra = function () { alert('extra!'); };
+    // resolve the dependency manually
+    load(val);
+  });
+}</code></pre>
+					<pre><code style="font-size: 18px; line-height: 22px;">require(['plugin!module'], function (module) {
+  module.extra(); // alerts 'extra!'
+});</code></pre>
+</section>
+					<section>
+					<h2>Powerful Modules</h2>
+					<p>Plugins can implement a custom load strategy, useful for dependency injection!</p>
+<pre><code style="font-size: 18px; line-height: 22px;">require([
+  'view!NavigationView',
+  'model/NavigationItems'
+], function (NavigationView, NavigationItems) {
+  // NavigationView is device specific, 
+  // imagine swapping out views for devices!
+  // Different for Android, iPhone, Browser or Whatever
+  new NavigationView({
+    model: new NavigationItems
+  });
+});</code></pre>
+
+					</section>
+					<section>
+					<h2>Powerful Modules</h2>
+					<p>Shim for example just wraps your code with some define&nbsp;calls! RIP use.js!</p>
+<pre><code style="font-size: 18px; line-height: 22px;">require([
+  'backbone'
+], function (Backbone) {
+  // AMD awesomely wrapped Backbone this.
+});</code></pre>
+
+					</section>
+				</section>
+				<section>
+					<section>
+					<h2>r.js - Builds &amp; Performance</h2>
+					<ul>
+						<li>A CLI implemented with Node.js</li>
+						<li>Traces dependencies</li>
+						<li>Concatenate and uglify your modules for production.</li>
+						<li>This will name unnamed modules.</li>
+						<li>Plugins are supported: (text! inlined for example).</li>
+						<li>You can use a shim like Almond if you don’t lazily load code. Or strip define and require altogether with Closure Compiler.</li>
+					</ul>
+					</section>
+					<section>
+					<h2>Plugins are Leveraged At Build Time</h2>
+					<p>There are lots of things your app doesn't need to do at runtime, do it at build time!</p>
+					<pre><code style="font-size: 18px; line-height: 22px;">load: function (name, parentRequire, load, config) {
+  load.asText('hbs!'+name,
+    'define(["handlebars"], function (H){ '+
+     'return H.template(H.precompile(' + tmplTxt +
+    ')); })');
+  parentRequire(['hbs!'+name], function (val) {
+    load(val);
+  });
+}</pre></code>
+					</section>
+					<section>
+					<h2>Dead Code Removal</h2>
+					<pre><code style="font-size: 18px; line-height: 22px;">if (has('something') ) {
+  useSomething();
+}
+// changes to
+if (false) {
+  doSomething();
+}</code></pre>
+					<p>Uglify will remove dead code blocks like this, also has closure compiler support.</p>
+					</section>
+				</section>
+				<section>
+					<h1>thankYou();</h1>
+					<ul>
+						<li><a href="https://github.com/iammerrick/">Github - iammerrick</a></li>
+						<li><a href="http://twitter.com/iammerrick">Twitter - @iammerrick</a></li>
+						<li><a href="mailto:merrickchristensen@gmail.com">merrick.christensen@gmail.com</a></li>
+						<li><a href="http://requirejs.org/">http://requirejs.org/</a></li>
+						<li><a href="http://alexsexton.com/talks/backboneconf2012/">Alex Sexton, His Talk Influenced This One Last Minute</a></li>
+					</ul>
+				</section>
+			</div>
+
+			<!-- The navigational controls UI -->
+			<aside class="controls">
+				<a class="left" href="#">&#x25C4;</a>
+				<a class="right" href="#">&#x25BA;</a>
+				<a class="up" href="#">&#x25B2;</a>
+				<a class="down" href="#">&#x25BC;</a>
+			</aside>
+
+			<!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+			<div class="progress"><span>&nbsp;</span></div>
+			
+		</div>
+		
+		<script src="js/reveal.js"></script>
+
+		<!-- Optional libraries for code syntax highlighting and classList support in IE9 -->
+		<script src="lib/highlight.js"></script>
+		<script src="lib/classList.js"></script>
+		
+		<script>
+			// Parse the query string into a key/value object
+			var query = {};
+			location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
+				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+			} );
+
+			// Fires when a slide with data-state=customevent is activated
+			Reveal.addEventListener( 'customevent', function() {
+				alert( '"customevent" has fired' );
+			} );
+
+			// Fires each time a new slide is activated
+			Reveal.addEventListener( 'slidechanged', function( event ) {
+				// event.indexh & event.indexv
+			} );
+
+			Reveal.initialize({
+				// Display controls in the bottom right corner
+				controls: true,
+
+				// Display a presentation progress bar
+				progress: true,
+
+				// If true; each slide will be pushed to the browser history
+				history: true,
+
+				// Loops the presentation, defaults to false
+				loop: false,
+
+				// Flags if mouse wheel navigation should be enabled
+				mouseWheel: true,
+
+				// Apply a 3D roll to links on hover
+				rollingLinks: true,
+
+				// UI style
+				theme: query.theme || 'default', // default/neon
+
+				// Transition style
+				transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
+			});
+
+			hljs.initHighlightingOnLoad();
+		</script>
+
+	</body>
+</html>
