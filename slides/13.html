@@ -1,0 +1,39 @@
+<section>
+  <section>
+    <h2>r.js - Builds &amp; Performance</h2>
+    <ul>
+      <li>A CLI implemented with Node.js</li>
+      <li>Traces dependencies</li>
+      <li>Concatenate and uglify your modules for production.</li>
+      <li>This will name unnamed modules.</li>
+      <li>Plugins are supported: (text! inlined for example).</li>
+      <li>You can use a shim like Almond if you don’t lazily load code. Or strip define and require altogether with Closure Compiler.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Plugins are Leveraged At Build Time</h2>
+    <p>There are lots of things your app doesn't need to do at runtime, do it at build time!</p>
+    <pre><code style="font-size: 18px; line-height: 22px;">load: function (name, parentRequire, load, config) {
+  load.asText('hbs!'+name,
+    'define(["handlebars"], function (H){ '+
+      'return H.template(H.precompile(' + tmplTxt + '));' +
+    '})');
+
+  parentRequire(['hbs!'+name], function (val) {
+    load(val);
+  });
+}</pre></code>
+  </section>
+  <section>
+    <h2>Dead Code Removal</h2>
+    <p>Uglify will remove dead code blocks like this, also has closure compiler support.</p>
+    <pre><code style="font-size: 18px; line-height: 22px;">if (has('something') ) {
+  useSomething();
+}
+
+// changes to
+if (false) {
+  doSomething();
+}</code></pre>
+  </section>
+</section>

@@ -1,0 +1,50 @@
+<section>
+  <section>
+    <h2>Making &amp; Admiring Require Plugins</h2>
+    <ul>
+      <li>We can significantly reduce boilerplate, and further separate our concerns with plugins!</li>
+      <li>The plugins will actually write to file in the build, this means your whole application could be a single request.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>They Are Just Modules</h2>
+    <p>That honor a specified API.</p>
+    <pre><code style="font-size: 18px; line-height: 22px;">write: function (pluginName, name, write) { ... },
+load: function (name, parentRequire, load, config) {
+  // Require the intended dependency
+  parentRequire([name], function (val) {
+    // Add extra functionality
+    val.extra = function () { alert('extra!'); };
+    // resolve the dependency manually
+    load(val);
+  });
+}</code></pre>
+    <pre><code style="font-size: 18px; line-height: 22px;">require(['plugin!module'], function (module) {
+  module.extra(); // alerts 'extra!'
+});</code></pre>
+  </section>
+  <section>
+    <h2>Powerful Modules</h2>
+    <p>Plugins can implement a custom load strategy, useful for dependency injection!</p>
+<pre><code style="font-size: 18px; line-height: 22px;">require([
+  'view!NavigationView',
+  'model/NavigationItems'
+], function (NavigationView, NavigationItems) {
+  // NavigationView is device specific, 
+  // imagine swapping out views for devices!
+  // Different for Android, iPhone, Browser or Whatever
+  new NavigationView({
+    model: new NavigationItems
+  });
+});</code></pre>
+  </section>
+  <section>
+    <h2>Powerful Modules</h2>
+    <p>Shim for example just wraps your code with some define&nbsp;calls!</p>
+<pre><code style="font-size: 18px; line-height: 22px;">require([
+  'backbone'
+], function (Backbone) {
+  // AMD awesomely wrapped Backbone this.
+});</code></pre>
+  </section>
+</section>

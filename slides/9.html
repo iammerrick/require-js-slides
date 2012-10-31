@@ -1,0 +1,51 @@
+<section>
+  <section>
+    <h2>Require Configuration</h2>      
+    <ul>
+      <li>Configuration of the Require.js Loader</li>
+      <li>Plugin configuration.</li>
+      <li>Paths, shims and more.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Require Configuration - Paths</h2>
+    <pre><code style="font-size:18px; line-height:22px;">require.config({
+  baseUrl: '/js',
+  paths: {
+    // ;-)
+    'underscore': 'lodash'
+  }
+});</code></pre>
+  </section>
+  <section>
+    <h2>Require Configuration - Shims</h2>
+    <pre><code style="font-size:18px; line-height:22px;">require.config({
+  shim: {
+    'backbone': {
+      // These script dependencies should be loaded before 
+      // loading backbone.js
+      deps: ['underscore', 'jquery'],
+
+      //Once loaded, use the global 'Backbone' as the
+      //module value.
+      exports: 'Backbone'
+    }
+  }
+});</code></pre>
+  </section>
+  <section>
+    <h2>Require Configuration - Maps</h2>
+    <pre><code style="font-size:18px; line-height:22px;">requirejs.config({
+  map: {
+    // When some/newmodule requires foo it gets the newer version.
+    'some/newmodule': {
+       'foo': 'foo1.2'
+    },
+    // When some/oldmodule requires foo it gets the older version.
+    'some/oldmodule': {
+        'foo': 'foo1.0' 
+     }
+  }
+});</code></pre>
+  </section>
+</section>

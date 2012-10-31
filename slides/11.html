@@ -1,0 +1,35 @@
+<section>
+  <section>
+    <h2>Using Require Plugins</h2>
+    <ul>
+      <li>Transparent middleware for your modules!</li>
+      <li>Load different kinds of assets. Assets are dependencies too! (CSS, Templates, etc)</li>
+      <li>Can be used to preprocess module contents or load strategies. (CoffeeScript, Non-AMD Scripts)</li>
+      <li>text!, css!, i18n!, cs!, json!, mdown!, jade! &amp; lots more!</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Using Require Plugins</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">// the &lt;plugin&gt;!&lt;resource&gt; is the syntax to use a plugin 
+// plugins are just modules that implement a specific api
+define(['foo!bar'], function(bar) {
+  // Export the interface for our module.
+});</pre></code>
+  </section>
+  <section>
+    <h2>Using Require Plugins</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">define(['cs!module.coffee'], function(module) {
+  // module was compiled for me!
+});</pre></code>
+  </section>
+  <section>
+    <h2>Using Require Plugins</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">define([
+  'text!mytemplate.handlebars',
+  'handlebars'
+], function(template, handlebars){
+  // template is just a string
+  return handlebars.compile(template);
+});</pre></code>
+  </section>  
+</section>

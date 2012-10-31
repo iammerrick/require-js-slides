@@ -1,0 +1,7 @@
+{
+  "name": "require-js-slides",
+  "version": "0.0.1",
+  "dependencies": {
+    "underscore": "~1.4.2"
+  }
+}

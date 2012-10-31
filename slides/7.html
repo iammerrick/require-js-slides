@@ -1,0 +1,44 @@
+<section>
+  <section>
+    <h2>Require.js - define()</h2>
+    <ul>
+      <li>Used to define a module.</li>
+      <li>Specifies all module dependencies.</li>
+      <li>Optionally name your module.</li>
+      <li>Export your module interface.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>define() API</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">// naming you module is optional, and in fact, you should avoid it
+// naming your modules makes your code less portable
+// dependencies listed in an array, same rules as require()
+// mapped to arguments in the callback
+define('name', ['dependency', 'bar'], function(dependency, bar) {
+  // Export the interface for our module.
+  return {
+    win: dependency.win,
+    lose: bar.lose
+  };
+});</code></pre>
+  </section>
+  <section>
+    <h2>define() API</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">define(['dependency', 'bar'], function(dependency, bar) {
+  // Export the interface for our module.
+  return {
+    win: dependency.win,
+    lose: bar.lose
+  };
+});</code></pre>
+  </section>
+  <section>
+    <h2>define() API</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">define(function() {
+  // Export the interface for our module.
+  return function(){
+    //functions can exported to!
+  };
+});</code></pre>
+  </section>
+</section>

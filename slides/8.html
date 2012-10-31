@@ -1,0 +1,52 @@
+<section>
+  <section>	
+    <h2>Require.js - require()</h2>
+    <ul>
+	   <li>Used to load code in a top level JavaScript file.</li>
+	   <li>An entry point of sorts.</li>
+	   <li>Used to lazily load code.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>require() API</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">// foo is an external module
+  // foo can be a path or an alias to a path using require configuration
+  // the exports or return of foo will be mapped 
+  // to the corresponding argument.
+  require(['foo'], function(foo) {
+    foo.win()
+});</code></pre>
+  </section>
+  <section>
+    <h2>require() API</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">// Multiple dependencies
+  require(['foo', 'bar'], function(foo, bar) {
+    foo.win();
+    bar.lose();
+});</code></pre>
+  </section>
+  <section>
+    <h2>require() API</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">// Dynamic loading of dependencies
+    define(['require', 'jquery'], function(require, $) {
+      // lots of awesome code
+    
+      $('#chat-start').on('click', function(){ 
+        // dependencies are paths so this will grab features/chat.js
+        require(['features/chat'], function(chat) {
+          chat.start();
+        });
+      });
+      return //awesome api;
+  });</code></pre>
+  </section>
+  <section>
+    <h2>require() API</h2>
+    <pre><code style="font-size: 18px; line-height: 22px;">// multiple loaders!
+var reqOne = require.config({
+  context: "version1",
+  baseUrl: "version1"
+});
+</code></pre>
+  </section>
+</section>
