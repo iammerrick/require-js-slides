@@ -18,7 +18,7 @@ require(['jquery'], function ($) {
   //Do something with $ here
 }, function (err) {
   //The error has a list of modules that failed
-  var failedId = err.requireModules && err.requireModules[0],
+  var failedId = err.requireModules && err.requireModules[0];
   if (failedId === 'jquery') {
     //undef is function only on the global requirejs object.
     //Use it to clear internal knowledge of jQuery. Any modules
@@ -82,6 +82,59 @@ require(['jquery'], function ($) {
   console.log('Ok time to try it again.');
   require(['chat'], function(Chat){});
 
+});</code></pre>
+  </section>
+  <section>
+    <h2>main.js</h2>
+    <pre><code>requirejs.config({
+  paths: {
+    'handlebars' : 'vendor/handlebars-1.0.rc.1'
+  },
+
+  shim: {
+    'handlebars' : {
+      exports: 'Handlebars'
+    }
+  }
+});
+
+require(['app/main'], function(app) {
+  app.start();
+}, function(err) {
+    console.log('Hey guys, we suck... :-( Time to restart!', err);
+
+    // Restart
+    require(['app/main'], function(app){
+      app.start();
+    });
+});</code></pre>
+  </section>
+  <section>
+    <h2>app/lib/chaos.js</h2>
+    <pre><code>define(function() {
+  var run = function(odds) {
+    var rand = Math.random();
+
+    if (rand > 1 - odds) {
+      throw new Error('Chaos Monkey Strikes!');
+    }
+
+    console.log('Consider yourself lucky.');
+  }
+
+  return run;
+});</code></pre>
+  </section>
+  <section>
+    <h2>app/main.js</h2>
+    <pre><code>define(['handlebars', 'app/lib/chaos'], function(Handlebars, chaos) {
+  var template = Handlebars.compile('&lt;h1&gt;Hello {{name}}!&lt;/h1&gt;');
+  return {
+    start: function() {
+      chaos(0.2);
+      document.body.innerHTML = template({ name: 'CascadiaJS' });
+    }
+  }
 });</code></pre>
   </section>
 </section>

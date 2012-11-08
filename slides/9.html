@@ -48,4 +48,22 @@
   }
 });</code></pre>
   </section>
+  <section>
+    <h2>main.js</h2>
+    <pre><code>requirejs.config({
+  paths: {
+    'handlebars' : 'vendor/handlebars-1.0.rc.1'
+  },
+
+  shim: {
+    'handlebars' : {
+      exports: 'Handlebars'
+    }
+  }
+});
+
+require(['app/main'], function(app) {
+  app.start();
+});</code></pre>
+  </section>
 </section>

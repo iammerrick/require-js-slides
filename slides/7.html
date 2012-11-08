@@ -41,4 +41,16 @@ define('name', ['dependency', 'bar'], function(dependency, bar) {
   };
 });</code></pre>
   </section>
+  <section>
+    <h2>app/main.js</h2>
+    <pre><code>define(function() {
+  var html = '&lt;h1&gt;Hello World!&lt;/h1&gt;';
+  return {
+    start: function() {
+      document.body.innerHTML = html;
+    }
+  }
+});
+    </code></pre>
+  </section>
 </section>

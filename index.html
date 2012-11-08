@@ -42,7 +42,7 @@
       <li>Built lots of high profile websites and applications.</li>
       <li>I love coding.</li>
       <li>Open source enthusiast.</li>
-      <li>require-typescript creator</li>
+      <li>require-ts creator</li>
       <li>require-sweet creator</li>
       <li>squire creator</li>
       <li>use.js contributor</li>
@@ -97,6 +97,7 @@
     <li>Great Adoption (jQuery, MooTools, Dojo, Firebug)</li>
   </ul>
 </section><section>
+  <section>
   <h2>Require.js</h2>
   <ul>
     <li>The AMD reference implementation.</li>
@@ -104,6 +105,22 @@
     <li>Not the only AMD Implementation.</li>
     <li>See <a href="https://github.com/cujojs/curl">Curl.js</a></li>
   </ul>
+  </section>
+  <section>
+    <h2>Initial Page</h2>
+  <pre><code style="font-size: 18px; line-height: 22px;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title>Require.js Application&lt;/title&gt;
+  &lt;script src="vendor/require.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+  </section>
 </section><section>
   <section>
     <h2>Require.js - define()</h2>
@@ -147,6 +164,18 @@ define('name', ['dependency', 'bar'], function(dependency, bar) {
   };
 });</code></pre>
   </section>
+  <section>
+    <h2>app/main.js</h2>
+    <pre><code>define(function() {
+  var html = '&lt;h1&gt;Hello World!&lt;/h1&gt;';
+  return {
+    start: function() {
+      document.body.innerHTML = html;
+    }
+  }
+});
+    </code></pre>
+  </section>
 </section>
 <section>
   <section>	
@@ -160,35 +189,35 @@ define('name', ['dependency', 'bar'], function(dependency, bar) {
   <section>
     <h2>require() API</h2>
     <pre><code style="font-size: 18px; line-height: 22px;">// foo is an external module
-  // foo can be a path or an alias to a path using require configuration
-  // the exports or return of foo will be mapped 
-  // to the corresponding argument.
-  require(['foo'], function(foo) {
-    foo.win()
+// foo can be a path or an alias to a path using require configuration
+// the exports or return of foo will be mapped 
+// to the corresponding argument.
+require(['foo'], function(foo) {
+  foo.win()
 });</code></pre>
   </section>
   <section>
     <h2>require() API</h2>
     <pre><code style="font-size: 18px; line-height: 22px;">// Multiple dependencies
-  require(['foo', 'bar'], function(foo, bar) {
-    foo.win();
-    bar.lose();
+require(['foo', 'bar'], function(foo, bar) {
+  foo.win();
+  bar.lose();
 });</code></pre>
   </section>
   <section>
     <h2>require() API</h2>
     <pre><code style="font-size: 18px; line-height: 22px;">// Dynamic loading of dependencies
-    define(['require', 'jquery'], function(require, $) {
-      // lots of awesome code
-    
-      $('#chat-start').on('click', function(){ 
-        // dependencies are paths so this will grab features/chat.js
-        require(['features/chat'], function(chat) {
-          chat.start();
-        });
-      });
-      return //awesome api;
-  });</code></pre>
+define(['require', 'jquery'], function(require, $) {
+  // lots of awesome code
+
+  $('#chat-start').on('click', function(){ 
+    // dependencies are paths so this will grab features/chat.js
+    require(['features/chat'], function(chat) {
+      chat.start();
+    });
+  });
+  return //awesome api;
+});</code></pre>
   </section>
   <section>
     <h2>require() API</h2>
@@ -199,6 +228,13 @@ var reqOne = require.config({
 });
 </code></pre>
   </section>
+  <section>
+      <h2>main.js</h2>
+      <pre><code style="font-size: 18px; line-height: 22px;">require(['app/main'], function(app) {
+  app.start();
+});
+  </code></pre>
+    </section>
 </section><section>
   <section>
     <h2>Require Configuration</h2>      
@@ -249,6 +285,24 @@ var reqOne = require.config({
   }
 });</code></pre>
   </section>
+  <section>
+    <h2>main.js</h2>
+    <pre><code>requirejs.config({
+  paths: {
+    'handlebars' : 'vendor/handlebars-1.0.rc.1'
+  },
+
+  shim: {
+    'handlebars' : {
+      exports: 'Handlebars'
+    }
+  }
+});
+
+require(['app/main'], function(app) {
+  app.start();
+});</code></pre>
+  </section>
 </section><section>
   <section>
     <h2>Require errbacks</h2>
@@ -269,7 +323,7 @@ require(['jquery'], function ($) {
   //Do something with $ here
 }, function (err) {
   //The error has a list of modules that failed
-  var failedId = err.requireModules && err.requireModules[0],
+  var failedId = err.requireModules && err.requireModules[0];
   if (failedId === 'jquery') {
     //undef is function only on the global requirejs object.
     //Use it to clear internal knowledge of jQuery. Any modules
@@ -335,6 +389,59 @@ require(['jquery'], function ($) {
 
 });</code></pre>
   </section>
+  <section>
+    <h2>main.js</h2>
+    <pre><code>requirejs.config({
+  paths: {
+    'handlebars' : 'vendor/handlebars-1.0.rc.1'
+  },
+
+  shim: {
+    'handlebars' : {
+      exports: 'Handlebars'
+    }
+  }
+});
+
+require(['app/main'], function(app) {
+  app.start();
+}, function(err) {
+    console.log('Hey guys, we suck... :-( Time to restart!', err);
+
+    // Restart
+    require(['app/main'], function(app){
+      app.start();
+    });
+});</code></pre>
+  </section>
+  <section>
+    <h2>app/lib/chaos.js</h2>
+    <pre><code>define(function() {
+  var run = function(odds) {
+    var rand = Math.random();
+
+    if (rand > 1 - odds) {
+      throw new Error('Chaos Monkey Strikes!');
+    }
+
+    console.log('Consider yourself lucky.');
+  }
+
+  return run;
+});</code></pre>
+  </section>
+  <section>
+    <h2>app/main.js</h2>
+    <pre><code>define(['handlebars', 'app/lib/chaos'], function(Handlebars, chaos) {
+  var template = Handlebars.compile('&lt;h1&gt;Hello {{name}}!&lt;/h1&gt;');
+  return {
+    start: function() {
+      chaos(0.2);
+      document.body.innerHTML = template({ name: 'CascadiaJS' });
+    }
+  }
+});</code></pre>
+  </section>
 </section><section>
   <section>
     <h2>Using Require Plugins</h2>
@@ -368,7 +475,42 @@ define(['foo!bar'], function(bar) {
   // template is just a string
   return handlebars.compile(template);
 });</pre></code>
-  </section>  
+  </section>
+  <section>
+    <h2>Add Text Plugin </h2>
+    <pre><code>requirejs.config({
+  paths: {
+    'handlebars' : 'vendor/handlebars-1.0.rc.1',
+    'text' : 'vendor/text'
+  },
+
+  shim: {
+    'handlebars' : {
+      exports: 'Handlebars'
+    }
+  }
+});</code></pre>
+  </section>
+  <section>
+    <h2>app/templates/app.handlebars</h2>
+    <pre><code>&lt;h1&gt;Hello {{name}}!&lt;/h1&gt;</code></pre>
+  </section>
+  <section>
+    <h2>app/main.js</h2>
+    <pre><code>define([
+  'handlebars',
+  'app/lib/chaos',
+  'text!./templates/app.handlebars'
+], function(Handlebars, chaos, text) {
+  var template = Handlebars.compile(text);
+  return {
+    start: function() {
+      chaos(0.2);
+      document.body.innerHTML = template({ name: 'CascadiaJS' });
+    }
+  }
+});</code></pre>
+  </section>
 </section>
 <section>
   <section>
@@ -397,7 +539,7 @@ load: function (name, parentRequire, load, config) {
   </section>
   <section>
     <h2>Powerful Modules</h2>
-    <p>Plugins can implement a custom load strategy, useful for dependency injection!</p>
+    <p>Plugins can implement a custom load strategy!</p>
 <pre><code style="font-size: 18px; line-height: 22px;">require([
   'view!NavigationView',
   'model/NavigationItems'
@@ -457,6 +599,28 @@ if (false) {
   doSomething();
 }</code></pre>
   </section>
+  <section>
+    <h2>build.js</h2>
+    <pre><code>{
+  "mainConfigFile": "main.js",
+  "name": "app/main",
+  "out": "app/main-built.js"
+}</code></pre>
+  </section>
+  <section>
+    <h2>Run The Build</h2>
+    <p>r.js -o build.js</p>
+  </section>
+  <section>
+    <h2>Optimize and Ship!</h2>
+    <img src="assets/images/build.png" />
+  </section>
+</section><section>
+  <h2>Other Interesting Work</h2>
+  <ul>
+    <li><a href="https://github.com/requirejs/xrayquire">xrayquire - github.com/requirejs/xrayquire</a></li>
+    <li><a href="https://github.com/jrburke/require-hm">require-hm - github.com/jrburke/require-hm</a></li>
+  </ul>
 </section><section>
   <h1>thankYou();</h1>
   <ul>

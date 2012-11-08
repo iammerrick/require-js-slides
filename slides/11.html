@@ -31,5 +31,40 @@ define(['foo!bar'], function(bar) {
   // template is just a string
   return handlebars.compile(template);
 });</pre></code>
-  </section>  
+  </section>
+  <section>
+    <h2>Add Text Plugin </h2>
+    <pre><code>requirejs.config({
+  paths: {
+    'handlebars' : 'vendor/handlebars-1.0.rc.1',
+    'text' : 'vendor/text'
+  },
+
+  shim: {
+    'handlebars' : {
+      exports: 'Handlebars'
+    }
+  }
+});</code></pre>
+  </section>
+  <section>
+    <h2>app/templates/app.handlebars</h2>
+    <pre><code>&lt;h1&gt;Hello {{name}}!&lt;/h1&gt;</code></pre>
+  </section>
+  <section>
+    <h2>app/main.js</h2>
+    <pre><code>define([
+  'handlebars',
+  'app/lib/chaos',
+  'text!./templates/app.handlebars'
+], function(Handlebars, chaos, text) {
+  var template = Handlebars.compile(text);
+  return {
+    start: function() {
+      chaos(0.2);
+      document.body.innerHTML = template({ name: 'CascadiaJS' });
+    }
+  }
+});</code></pre>
+  </section>
 </section>

@@ -10,35 +10,35 @@
   <section>
     <h2>require() API</h2>
     <pre><code style="font-size: 18px; line-height: 22px;">// foo is an external module
-  // foo can be a path or an alias to a path using require configuration
-  // the exports or return of foo will be mapped 
-  // to the corresponding argument.
-  require(['foo'], function(foo) {
-    foo.win()
+// foo can be a path or an alias to a path using require configuration
+// the exports or return of foo will be mapped 
+// to the corresponding argument.
+require(['foo'], function(foo) {
+  foo.win()
 });</code></pre>
   </section>
   <section>
     <h2>require() API</h2>
     <pre><code style="font-size: 18px; line-height: 22px;">// Multiple dependencies
-  require(['foo', 'bar'], function(foo, bar) {
-    foo.win();
-    bar.lose();
+require(['foo', 'bar'], function(foo, bar) {
+  foo.win();
+  bar.lose();
 });</code></pre>
   </section>
   <section>
     <h2>require() API</h2>
     <pre><code style="font-size: 18px; line-height: 22px;">// Dynamic loading of dependencies
-    define(['require', 'jquery'], function(require, $) {
-      // lots of awesome code
-    
-      $('#chat-start').on('click', function(){ 
-        // dependencies are paths so this will grab features/chat.js
-        require(['features/chat'], function(chat) {
-          chat.start();
-        });
-      });
-      return //awesome api;
-  });</code></pre>
+define(['require', 'jquery'], function(require, $) {
+  // lots of awesome code
+
+  $('#chat-start').on('click', function(){ 
+    // dependencies are paths so this will grab features/chat.js
+    require(['features/chat'], function(chat) {
+      chat.start();
+    });
+  });
+  return //awesome api;
+});</code></pre>
   </section>
   <section>
     <h2>require() API</h2>
@@ -49,4 +49,11 @@ var reqOne = require.config({
 });
 </code></pre>
   </section>
+  <section>
+      <h2>main.js</h2>
+      <pre><code style="font-size: 18px; line-height: 22px;">require(['app/main'], function(app) {
+  app.start();
+});
+  </code></pre>
+    </section>
 </section>
