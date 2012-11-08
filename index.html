@@ -63,6 +63,8 @@
     <li>JavaScript Modules</li>
     <li>AMD &amp; Require.js</li>
     <li>Require.js FTW(s)</li>
+    <li><a href="https://github.com/iammerrick/require-js-slides">iammerrick/require-js-slides</a></li>
+    <li><a href="https://github.com/iammerrick/require-js-example">iammerrick/require-js-example</a></li>
   </ul>
 </section><section>
   <section>
@@ -75,7 +77,7 @@
   </section>
   <section>
     <h2>What are JavaScript Modules?</h2>
-    <p>Not native to JavaScript, not exactly new either...</p>
+    <p>Not native to JavaScript (yet), not exactly new either...</p>
 
     <pre><code contenteditable style="font-size: 18px;line-height: 22px; margin-top: 20px;">var Module = (function() {
   var private = "something";
@@ -235,6 +237,21 @@ var reqOne = require.config({
 });
   </code></pre>
     </section>
+    <section>
+<h2>index.html - Entry Point</h2>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title>Require.js Application&lt;/title&gt;
+  &lt;script src="vendor/require.js" data-main="main">&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+  </section>
+
 </section><section>
   <section>
     <h2>Require Configuration</h2>      
@@ -406,12 +423,12 @@ require(['jquery'], function ($) {
 require(['app/main'], function(app) {
   app.start();
 }, function(err) {
-    console.log('Hey guys, we suck... :-( Time to restart!', err);
+  console.log('Hey guys, we suck... :-( Time to restart!', err);
 
-    // Restart
-    require(['app/main'], function(app){
-      app.start();
-    });
+  // Restart
+  require(['app/main'], function(app){
+    app.start();
+  });
 });</code></pre>
   </section>
   <section>
@@ -550,15 +567,6 @@ load: function (name, parentRequire, load, config) {
   new NavigationView({
     model: new NavigationItems
   });
-});</code></pre>
-  </section>
-  <section>
-    <h2>Powerful Modules</h2>
-    <p>Shim for example just wraps your code with some define&nbsp;calls!</p>
-<pre><code style="font-size: 18px; line-height: 22px;">require([
-  'backbone'
-], function (Backbone) {
-  // AMD awesomely wrapped Backbone this.
 });</code></pre>
   </section>
 </section><section>

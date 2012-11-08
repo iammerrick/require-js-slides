@@ -101,12 +101,12 @@ require(['jquery'], function ($) {
 require(['app/main'], function(app) {
   app.start();
 }, function(err) {
-    console.log('Hey guys, we suck... :-( Time to restart!', err);
+  console.log('Hey guys, we suck... :-( Time to restart!', err);
 
-    // Restart
-    require(['app/main'], function(app){
-      app.start();
-    });
+  // Restart
+  require(['app/main'], function(app){
+    app.start();
+  });
 });</code></pre>
   </section>
   <section>
